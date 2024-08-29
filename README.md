@@ -1,1 +1,1 @@
-repo for simple shell project
+repo for simple shell project.
