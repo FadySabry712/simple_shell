@@ -3,22 +3,22 @@
 /**
  * hsh - main shell loop
  * @info: the parameter & return info struct
- * @av: the argument vector from main
- * Return: 0 , 1 , or error
+ * @av: the argument vector from main()
+ * Return: 0 on , 1 on error, or error
  */
 int hsh(info_t *info, char **av)
 {
-	ssize_t j = 0;
+	ssize_t r = 0;
 	int builtin_ret = 0;
 
-	while (j != -1 && builtin_ret != -2)
+	while (r != -1 && builtin_ret != -2)
 	{
 		clear_info(info);
 		if (interactive(info))
 			_puts("$ ");
 		_eputchar(BUF_FLUSH);
 		r = get_input(info);
-		if (j != -1)
+		if (r != -1)
 		{
 			set_info(info, av);
 			builtin_ret = find_builtin(info);
@@ -46,13 +46,13 @@ int hsh(info_t *info, char **av)
  * find_builtin - finds a builtin command
  * @info: the parameter & return info struct
  * Return: -1 if builtin not found,
- *			0 if builtin executed
+ *			0 if builtin executed success
  *			1 if builtin found but not success
- *			-2 if builtin signal exit
+ *			-2 if builtin signals
  */
 int find_builtin(info_t *info)
 {
-	int j, built_in_ret = -1;
+	int i, built_in_ret = -1;
 	builtin_table builtintbl[] = {
 		{"exit", _myexit},
 		{"env", _myenv},
@@ -65,7 +65,7 @@ int find_builtin(info_t *info)
 		{NULL, NULL}
 	};
 
-	for (j = 0; builtintbl[j].type; j++)
+	for (i = 0; builtintbl[i].type; i++)
 		if (_strcmp(info->argv[0], builtintbl[i].type) == 0)
 		{
 			info->line_count++;
@@ -76,14 +76,14 @@ int find_builtin(info_t *info)
 }
 
 /**
- * find_cmd - find a command in PATH
- * @info: the parameter & return info struc
+ * find_cmd - finds a command in PATH
+ * @info: the parameter & return info
  * Return: void
  */
 void find_cmd(info_t *info)
 {
 	char *path = NULL;
-	int j, k;
+	int i, k;
 
 	info->path = info->argv[0];
 	if (info->linecount_flag == 1)
@@ -91,7 +91,7 @@ void find_cmd(info_t *info)
 		info->line_count++;
 		info->linecount_flag = 0;
 	}
-	for (j = 0, k = 0; info->arg[j]; j++)
+	for (i = 0, k = 0; info->arg[i]; i++)
 		if (!is_delim(info->arg[i], " \t\n"))
 			k++;
 	if (!k)
@@ -117,8 +117,8 @@ void find_cmd(info_t *info)
 }
 
 /**
- * fork_cmd - forks a an exec thread to run
- * @info: parameter 1
+ * fork_cmd - forks a an exec thread to run cmd
+ * @info: the parameter & return info stru
  * Return: void
  */
 void fork_cmd(info_t *info)
@@ -154,4 +154,3 @@ void fork_cmd(info_t *info)
 		}
 	}
 }
-
