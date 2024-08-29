@@ -2,14 +2,14 @@
 
 /**
  * **strtow - splits a string into words. Repeat delimiters are ignored
- * @str: the input str
- * @d: the delimeter str
- * Return: a pointer to an array of str, or NULL
+ * @str: the input string
+ * @d: the delimeter strin
+ * Return: a pointerrray of strings, or NULL on failure
  */
 
 char **strtow(char *str, char *d)
 {
-	int i, j, k, m, numberwords = 0;
+	int i, j, k, m, numwords = 0;
 	char **s;
 
 	if (str == NULL || str[0] == 0)
@@ -18,14 +18,14 @@ char **strtow(char *str, char *d)
 		d = " ";
 	for (i = 0; str[i] != '\0'; i++)
 		if (!is_delim(str[i], d) && (is_delim(str[i + 1], d) || !str[i + 1]))
-			numberwords++;
+			numwords++;
 
-	if (numberwords == 0)
+	if (numwords == 0)
 		return (NULL);
-	s = malloc((1 + numbrwords) * sizeof(char *));
+	s = malloc((1 + numwords) * sizeof(char *));
 	if (!s)
 		return (NULL);
-	for (i = 0, j = 0; j < numberwords; j++)
+	for (i = 0, j = 0; j < numwords; j++)
 	{
 		while (is_delim(str[i], d))
 			i++;
@@ -49,14 +49,14 @@ char **strtow(char *str, char *d)
 }
 
 /**
- * **strtow2 - splits a string into word
+ * **strtow2 - splits a string into words
  * @str: the input string
- * @d: the delim
- * Return: a pointer to an array of str, or NUL
+ * @d: the delimeter
+ * Return: a pointer tay of strings, or NULL on failure
  */
 char **strtow2(char *str, char d)
 {
-	int i, j, k, m, numberwords = 0;
+	int i, j, k, m, numwords = 0;
 	char **s;
 
 	if (str == NULL || str[0] == 0)
@@ -64,13 +64,13 @@ char **strtow2(char *str, char d)
 	for (i = 0; str[i] != '\0'; i++)
 		if ((str[i] != d && str[i + 1] == d) ||
 		    (str[i] != d && !str[i + 1]) || str[i + 1] == d)
-			numberwords++;
-	if (numberwords == 0)
+			numwords++;
+	if (numwords == 0)
 		return (NULL);
-	s = malloc((1 + numberwords) * sizeof(char *));
+	s = malloc((1 + numwords) * sizeof(char *));
 	if (!s)
 		return (NULL);
-	for (i = 0, j = 0; j < numberwords; j++)
+	for (i = 0, j = 0; j < numwords; j++)
 	{
 		while (str[i] == d && str[i] != d)
 			i++;
